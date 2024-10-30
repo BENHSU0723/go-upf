@@ -9,6 +9,7 @@ import (
 	"github.com/wmnsk/go-pfcp/ie"
 
 	"github.com/free5gc/go-upf/internal/forwarder"
+	"github.com/free5gc/go-upf/internal/logger"
 	"github.com/free5gc/go-upf/internal/report"
 	logger_util "github.com/free5gc/util/logger"
 )
@@ -129,8 +130,10 @@ func (s *Sess) CreatePDR(req *ie.IE) error {
 
 	err = s.rnode.driver.CreatePDR(s.LocalID, req)
 	if err != nil {
+		logger.Vn5glanLog.Errorf("CreatePDR() err:", err.Error())
 		return err
 	}
+	logger.Vn5glanLog.Warnln("Sess: CreatePDR Success!!")
 
 	return nil
 }
@@ -336,6 +339,7 @@ func (s *Sess) CreateURR(req *ie.IE) error {
 	if err != nil {
 		return err
 	}
+	logger.Vn5glanLog.Warnln("get CreateURR ID:", id)
 
 	mInfo := &ie.IE{}
 	for _, x := range req.ChildIEs {

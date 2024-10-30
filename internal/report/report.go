@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"time"
 
+	"github.com/free5gc/go-upf/internal/logger"
 	"github.com/pkg/errors"
 	"github.com/wmnsk/go-pfcp/ie"
 )
@@ -93,6 +94,7 @@ func (r USAReport) IEsWithinSessReportReq(
 	if method.DURAT {
 		ies = append(ies, r.DuratMeasure.IE())
 	}
+	logger.Vn5glanLog.Warnf("get USAReport:%+v\n", r)
 	return ies
 }
 

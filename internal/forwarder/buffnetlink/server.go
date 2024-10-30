@@ -9,7 +9,7 @@ import (
 	"github.com/khirono/go-nl"
 	"github.com/pkg/errors"
 
-	"github.com/free5gc/go-gtp5gnl"
+	"github.com/BENHSU0723/go-gtp5gnl"
 	"github.com/free5gc/go-upf/internal/logger"
 	"github.com/free5gc/go-upf/internal/report"
 )

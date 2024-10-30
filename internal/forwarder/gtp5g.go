@@ -14,7 +14,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/wmnsk/go-pfcp/ie"
 
-	"github.com/free5gc/go-gtp5gnl"
+	"github.com/BENHSU0723/go-gtp5gnl"
 	"github.com/free5gc/go-upf/internal/forwarder/buffnetlink"
 	"github.com/free5gc/go-upf/internal/forwarder/perio"
 	"github.com/free5gc/go-upf/internal/gtpv1"
@@ -354,9 +354,24 @@ func (g *Gtp5g) newPdi(i *ie.IE) (nl.AttrList, error) {
 				Type:  gtp5gnl.PDI_UE_ADDR_IPV4,
 				Value: nl.AttrBytes(v.IPv4Address),
 			})
+			logger.Vn5glanLog.Debugln("get UEIPAddress :", v.IPv4Address.To4().String())
+
 		case ie.SDFFilter:
 			sdfIEs = append(sdfIEs, x)
 		case ie.ApplicationID:
+
+		case ie.IPMulticastAddress:
+			logger.Vn5glanLog.Warnln("Receive multicast addr ipv4 IE")
+			v, err := x.IPMulticastAddress()
+			if err != nil {
+				logger.Vn5glanLog.Warnln(err.Error())
+				break
+			}
+			attrs = append(attrs, nl.Attr{
+				Type:  gtp5gnl.PDI_Mulcst_ADDR_IPV4,
+				Value: nl.AttrBytes(v.StartIPv4Address),
+			})
+			logger.Vn5glanLog.Warnln("get multicast addr ipv4:", v.StartIPv4Address.To4().String())
 		}
 	}
 
